@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "Onlinetest" %></title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    
+  </head>
+  <body>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+<%= nav_bar static: :top, brand: "OnlineTest", responsive: true do %>
+   <%= menu_group do %>
+       <%= menu_item "Home", root_path %>
+       <%= menu_divider %>
+       <%= menu_item "About Us", "root_path" %>
+       <%= menu_item "Contact", "root_path" %>
+   <% end %>
+   <%= menu_group pull: :right do %>
+       <% if current_user %>
+           <%= menu_item "Log Out",destroy_user_session_path, method: :delete %>
+           <%= menu_item current_user.email %>
+       <% else %>
+            <%= menu_item "Sign Up", new_registration_path(resource_name) %>
+            <%= menu_item "Sign In",new_user_session_path%>
+       <% end %>
+   <% end %>
+<% end %>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9">
+          <%= bootstrap_flash %>
+          <%= yield %>
+        </div>
+        <div class="col-lg-3">
+          <div class="well sidebar-nav">
+            <h3>Sidebar</h3>
+            <ul class="nav nav-list">
+              <li class="nav-header">Sidebar</li>
+              <li><%= link_to "Questions", "/questions"  %></li>
+              <li><%= link_to "Link2", "/path2"  %></li>
+              <li><%= link_to "Link3", "/path3"  %></li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+      </div><!--/row-->
+
+      <footer>
+        <p>&copy; Company 2019</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>
