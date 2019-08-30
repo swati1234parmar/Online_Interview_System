@@ -1,0 +1,14 @@
+<dd><strong><h2><%=current_user.email %></h2></strong></dd>
+	<% score = 0 %>
+	<% @score.each do |s| %>
+		<% if s.score == 1%>
+			<%score = score + 1 %>
+		<% end %>
+	<% end %>
+	<%@result.final_score=score%>
+	<%@result.user_id=current_user.id%>
+	<%@result.test_id=@test.id%>
+	<%@result.save%>
+	<h3>Your final score is <%=score%> out of 6</h3>
+
+

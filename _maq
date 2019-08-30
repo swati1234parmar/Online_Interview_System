@@ -1,0 +1,28 @@
+
+[1mFrom:[0m /home/user34/rails_studio/onlinetest/app/controllers/tests_controller.rb @ line 82 TestsController#submit:
+
+    [1;34m75[0m: [32mdef[0m [1;34msubmit[0m
+    [1;34m76[0m:   @test = [1;34;4mTest[0m.find(params[[33m:id[0m])
+    [1;34m77[0m:   @user = current_user.id
+    [1;34m78[0m:   @answer = @test.answers.new(answer_paper_params)
+    [1;34m79[0m:   @answer.user_id = @user
+    [1;34m80[0m:   @answer.save
+    [1;34m81[0m:   [32mif[0m @ans_maq = @answer.options.map(& [33m:is_correct[0m)
+ => [1;34m82[0m:         binding.pry
+    [1;34m83[0m:     [32mif[0m @ans_maq.size > [1;34m1[0m  && @ans_maq.include?([1;36mfalse[0m)       
+    [1;34m84[0m:        @answer.score = [1;34m0[0m
+    [1;34m85[0m:     [32melse[0m
+    [1;34m86[0m:        @answer.score += [1;34m1[0m 
+    [1;34m87[0m:     [32mend[0m
+    [1;34m88[0m:     @answer.save
+    [1;34m89[0m:   [32melse[0m
+    [1;34m90[0m:     [32mif[0m @ans_maq.size == [1;34m1[0m && @ans_maq.include?([1;36mfalse[0m)
+    [1;34m91[0m: 
+    [1;34m92[0m:        @answer.score = [1;34m0[0m
+    [1;34m93[0m:     [32melse[0m
+    [1;34m94[0m:        @answer.score += [1;34m1[0m
+    [1;34m95[0m:     [32mend[0m
+    [1;34m96[0m:       @answer.save
+    [1;34m97[0m:   [32mend[0m
+    [1;34m98[0m: [32mend[0m 
+

@@ -1,0 +1,23 @@
+<div class ="Instuction">
+	<script type="text/javascript">
+      function preventBack() { window.history.forward(); }
+      setTimeout("preventBack()", 0);
+      window.onunload = function () { null };
+  </script>
+	<h1>Instructions:</h1>
+	
+	<p>There are four types of questions</p>
+		<ul>
+			<li>Muliple choice questions</li>
+			<li>Muliple choice Answer</li>
+			<li>Fill in the blanks</li>
+			<li>True and False</li>
+		</ul>
+		
+	<p>Number of questions: 5</p>
+	<p>Total time is <%=@test.duration%> minute</p>
+	<p>Must be finished in one sitting. You cannot save and 	   finish later.</p>
+	<p>Questions displayed per page: 1</p>
+</div>
+<%= link_to t('.Start', :default => t("helpers.links.start")),paper_path(@test),
+	    :class => 'button span ' %>

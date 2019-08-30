@@ -1,64 +1,54 @@
 class TestsController < ApplicationController
-  before_action :set_test, only: [:show, :edit, :update, :destroy]
-
-  # GET /tests
-  # GET /tests.json
-  def index
-    @tests = Test.all
+ before_action :set_test, only: [:start_test, :paper, :submit, :result]
+  
+  def paper
+    @questions = @test.questions.page(params[:page]).per_page(1)
+    @answers = @questions.first.answers.where(user_id: current_user.id, test_id: @test)
+    @answer = @questions.first.answers.new
   end
 
-  # GET /tests/1
-  # GET /tests/1.json
-  def show
+  def start_test
+ 
   end
 
-  # GET /tests/new
-  def new
-    @test = Test.new
-  end
+  def submit
 
-  # GET /tests/1/edit
-  def edit
-  end
-
-  # POST /tests
-  # POST /tests.json
-  def create
-    @test = Test.new(test_params)
-
-    respond_to do |format|
-      if @test.save
-        format.html { redirect_to @test, notice: 'Test was successfully created.' }
-        format.json { render :show, status: :created, location: @test }
+    @test = Test.find(params[:id])
+    @user = current_user.id
+    Answer.where(user_id:current_user.id,question_id:answer_paper_params[:question_id],test_id:params[:id]).destroy_all
+    @answer = @test.answers.new(answer_paper_params)
+    @answer.user_id = @user
+    @answer.save
+    @ans_maq = @answer.options.map(& :is_correct)
+      if @ans_maq.size == 1   
+        if @ans_maq.include?(false)       
+         @answer.score = 0
+        else
+         @answer.score = 1 
+        end
+     else
+      if @ans_maq.include?(false)
+         @answer.score = 0
       else
-        format.html { render :new }
-        format.json { render json: @test.errors, status: :unprocessable_entity }
+         @answer.score = 1
       end
     end
+    @answer.save
+  end
+   
+  def score
+    @test=Test.find(params[:id])
+    @score = Answer.where(user_id:current_user.id, test_id:@test)
+    @result=Result.new
+    render "score"
   end
 
-  # PATCH/PUT /tests/1
-  # PATCH/PUT /tests/1.json
-  def update
-    respond_to do |format|
-      if @test.update(test_params)
-        format.html { redirect_to @test, notice: 'Test was successfully updated.' }
-        format.json { render :show, status: :ok, location: @test }
-      else
-        format.html { render :edit }
-        format.json { render json: @test.errors, status: :unprocessable_entity }
-      end
-    end
+  def result
+   @result=Result.where(user_id: current_user.id)
   end
 
-  # DELETE /tests/1
-  # DELETE /tests/1.json
-  def destroy
-    @test.destroy
-    respond_to do |format|
-      format.html { redirect_to tests_url, notice: 'Test was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+  def undef
+    
   end
 
   private
@@ -67,8 +57,11 @@ class TestsController < ApplicationController
       @test = Test.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
+    def answer_paper_params
+      params.require(:answer).permit(:score, :user_id, :test_id, :question_id, :option_ids=>[])
+    end
+
     def test_params
-      params.require(:test).permit(:name, :duration)
+      params.require(:test).permit(:question_id, :name, :duration, question_ids: [])
     end
 end

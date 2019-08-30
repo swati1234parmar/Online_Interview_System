@@ -1,0 +1,20 @@
+<h2>Result</h2>
+<hr>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th><b>Email_id</b></th>
+				<th><b>Test</b></th>
+				<th><b>Total_score</b></th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @res = @result.select{|a|  a.test_id == @test.id}.first %>
+				<tr>
+					<td><%=@res.user.email%></td>
+					<td><%=@res.test.name%></td>
+					<td><%=@res.final_score%></td>
+				</tr>
+		</tbody>
+	</table>
+<%=link_to "Back",admin_tests_path,:class => 'btn btn-primary btn-xs div'%>

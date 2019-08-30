@@ -11,9 +11,12 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery_nested_form
+
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
-//= require jquery_nested_form
 
+//= require jquery.simple.timer
 //= require_tree .
+

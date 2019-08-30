@@ -10,7 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_01_121107) do
+ActiveRecord::Schema.define(version: 2019_08_24_111225) do
+
+  create_table "answer_options", force: :cascade do |t|
+    t.integer "option_id"
+    t.integer "answer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["answer_id"], name: "index_answer_options_on_answer_id"
+    t.index ["option_id"], name: "index_answer_options_on_option_id"
+  end
+
+  create_table "answers", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "question_id"
+    t.integer "test_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "score", default: 0
+    t.integer "duration", default: 0
+    t.index ["question_id"], name: "index_answers_on_question_id"
+    t.index ["test_id"], name: "index_answers_on_test_id"
+    t.index ["user_id"], name: "index_answers_on_user_id"
+  end
 
   create_table "options", force: :cascade do |t|
     t.string "choice"
@@ -25,6 +47,26 @@ ActiveRecord::Schema.define(version: 2019_08_01_121107) do
     t.string "question"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "question_type"
+  end
+
+  create_table "results", force: :cascade do |t|
+    t.integer "final_score"
+    t.integer "user_id"
+    t.integer "test_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["test_id"], name: "index_results_on_test_id"
+    t.index ["user_id"], name: "index_results_on_user_id"
+  end
+
+  create_table "test_questions", force: :cascade do |t|
+    t.integer "test_id"
+    t.integer "question_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_test_questions_on_question_id"
+    t.index ["test_id"], name: "index_test_questions_on_test_id"
   end
 
   create_table "tests", force: :cascade do |t|
